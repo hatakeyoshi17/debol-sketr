@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Strike - Peningkatan Canggih</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #1a202c;
+        }
+
+            #message {
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+        margin-top: 50px;
+        font-family: Arial, sans-serif;
+    }
+    #countdown {
+        display: inline-block;
+        font-size: 48px;
+        font-weight: bold;
+        color: #007bff; /* Màu xanh chuyên nghiệp */
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+    #countdown.animate {
+        transform: scale(1.2); /* Phóng to khi thay đổi */
+        color: #ff5722; /* Thay đổi màu tạm thời */
+    }
+
+        .container {
+            max-width: 1280px;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .image-container img.active {
+            opacity: 1;
+        }
+
+        .image-container img:not(.active) {
+            opacity: 0;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            position: sticky;
+            top: 1.5rem; /* Matches my-6 */
+            max-height: calc(100vh - 3rem);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Accordion for mobile view */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1000px; /* A large value to allow content to expand */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header with interactive menu -->
+    <header class="bg-white shadow-lg p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-800">Football Strike</a>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="lg:hidden text-gray-600 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            
+            <!-- Desktop Menu -->
+            <nav id="desktop-menu" class="hidden lg:flex space-x-6 text-gray-600 font-semibold">
+                <a href="#about-game-accordion" class="hover:text-gray-900 transition-colors">About</a>
+                <a href="#whats-new" class="hover:text-gray-900 transition-colors">What's New</a>
+                <a href="#ratings" class="hover:text-gray-900 transition-colors">Ratings & Reviews</a>
+            </nav>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <nav id="mobile-menu" class="hidden lg:hidden bg-white shadow-md mt-2 space-y-2 p-4 rounded-lg">
+            <a href="#about-game-accordion" class="block py-2 hover:bg-gray-100 rounded-lg">About</a>
+            <a href="#whats-new" class="block py-2 hover:bg-gray-100 rounded-lg">What's New</a>
+            <a href="#ratings" class="block py-2 hover:bg-gray-100 rounded-lg">Ratings & Reviews</a>
+        </nav>
+        <div id="message">
+    Mohon ubah... <span id="countdown">5780</span>
+</div>
+
+<script>
+    let countdown = 5780;
+    const countdownElement = document.getElementById('countdown');
+    
+    const interval = setInterval(function() {
+        countdown--;
+        
+        // Thêm class animate để kích hoạt hiệu ứng
+        countdownElement.classList.add('animate');
+        setTimeout(() => {
+            countdownElement.classList.remove('animate');
+        }, 300); // Xóa class sau 0.3 giây
+        
+        if (countdown > 0) {
+            countdownElement.textContent = countdown;
+        } else {
+            countdownElement.textContent = 'Semoga Anda menang besar!'; // Thông báo bằng tiếng Indonesia khi kết thúc
+            countdownElement.style.color = '#28a745'; // Màu xanh lá cho thông báo thành công
+            setTimeout(() => {
+                window.location.href = "-isi link disini-";
+            }, 2000); // Chờ 2 giây để hiển thị thông báo trước khi redirect
+            clearInterval(interval);
+        }
+    }, 1000); // Cập nhật mỗi giây
+</script>
+    </header>
+
+    <div class="flex flex-col lg:flex-row container mx-auto p-4 md:p-6 lg:gap-8">
+
+        <!-- Main Content Section -->
+        <main class="lg:w-2/3 space-y-8">
+            
+            <!-- Game Images Carousel -->
+            <section class="rounded-2xl overflow-hidden shadow-lg bg-white p-4">
+                <div class="image-container relative rounded-lg">
+                    <img id="carousel-img-1" src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-8-20250504103957-batzp.webp" alt="Football Strike Screenshot 1" class="rounded-lg active">
+                    <img id="carousel-img-2" src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-9-20250504103957-e51g_.webp" alt="Football Strike Screenshot 2" class="rounded-lg">
+                    <img id="carousel-img-3" src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-5-20250504103957-ha-od.webp" alt="Football Strike Screenshot 3" class="rounded-lg">
+                    <img id="carousel-img-4" src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-6-20250504103957-mwuys.webp" alt="Football Strike Screenshot 4" class="rounded-lg">
+                    <img id="carousel-img-5" src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-7-20250504103957-hcpid.webp" alt="Football Strike Screenshot 5" class="rounded-lg">
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                        <span class="dot w-3 h-3 bg-gray-400 rounded-full cursor-pointer transition-all duration-300 hover:bg-white active:bg-white" data-slide="1"></span>
+                        <span class="dot w-3 h-3 bg-gray-400 rounded-full cursor-pointer transition-all duration-300 hover:bg-white" data-slide="2"></span>
+                        <span class="dot w-3 h-3 bg-gray-400 rounded-full cursor-pointer transition-all duration-300 hover:bg-white" data-slide="3"></span>
+                        <span class="dot w-3 h-3 bg-gray-400 rounded-full cursor-pointer transition-all duration-300 hover:bg-white" data-slide="4"></span>
+                        <span class="dot w-3 h-3 bg-gray-400 rounded-full cursor-pointer transition-all duration-300 hover:bg-white" data-slide="5"></span>
+                    </div>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2 text-sm">
+                    <div class="px-3 py-1 bg-gray-200 rounded-full font-medium">#9 top free sports</div>
+                    <div class="px-3 py-1 bg-gray-200 rounded-full font-medium">Sports</div>
+                    <div class="px-3 py-1 bg-gray-200 rounded-full font-medium">Football</div>
+                    <div class="px-3 py-1 bg-gray-200 rounded-full font-medium">Multi-player</div>
+                    <div class="px-3 py-1 bg-gray-200 rounded-full font-medium">Competitive multiplayer</div>
+                    <div class="px-3 py-1 bg-gray-200 rounded-full font-medium">Realistic</div>
+                </div>
+            </section>
+
+            <!-- What's new -->
+            <section id="whats-new" class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold">What's new</h2>
+                <div class="text-sm mt-1 mb-4 text-gray-500">
+                    <span class="inline-block px-3 py-1 bg-gray-200 rounded-full font-medium">Updated on 19 Mar 2025</span>
+                </div>
+                <p class="text-gray-700">Step onto the pitch with the latest version of Football Strike! ⚽️<br><br>Enjoy stunning graphics that bring players, kits and stadiums to life like never before. 🏟️👕 With enhanced visuals, every match feels more realistic and thrilling! 🎮🔥<br><br>Download now and take your football experience to the next level! 📲🚀</p>
+                <div class="flex justify-end mt-4">
+                    <a href="#" class="text-sm text-green-600 font-semibold hover:underline">See all reviews</a>
+                </div>
+            </section>
+
+            <!-- About this game -->
+            <section class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="accordion-item" id="about-game-accordion">
+                    <h2 class="text-2xl font-bold flex justify-between items-center cursor-pointer accordion-header">
+                        About this game
+                        <span class="accordion-icon transform transition-transform duration-300 rotate-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </h2>
+                    <div class="accordion-content">
+                        <p class="text-gray-700 mt-4">Take on your friends in multiplayer free-kick face-offs, or make a name for yourself in the Career Mode! Customise your striker and goalkeeper with tons of unlockable items! Show off your style or represent your team’s colours!</p>
+                        <p class="text-gray-700 mt-4">Take on Career mode, travelling through different stadiums around the globe and taking on unique soccer challenges to unlock medals!</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Data safety -->
+            <section class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="accordion-item" id="data-safety-accordion">
+                    <h2 class="text-2xl font-bold flex justify-between items-center cursor-pointer accordion-header">
+                        Data safety
+                        <span class="accordion-icon transform transition-transform duration-300 rotate-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </h2>
+                    <div class="accordion-content space-y-4">
+                        <p class="text-gray-700 mt-4">Safety starts with understanding how developers collect and share your data. Data privacy and security practices may vary based on your use, region and age. The developer provided this information and may update it over time.</p>
+                        <div class="flex items-start space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-20-20250504103948-brbkk.webp" alt="Share Icon" class="w-7 h-7 mt-1">
+                            <div>
+                                <h4 class="font-semibold">This app may share these data types with third parties</h4>
+                                <p class="text-gray-600">Location, Personal info and 5 others</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-21-20250504103948-plfgb.webp" alt="Collect Icon" class="w-7 h-7 mt-1">
+                            <div>
+                                <h4 class="font-semibold">This app may collect these data types</h4>
+                                <p class="text-gray-600">Location, Personal info and 6 others</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-22-20250504103948-rvt2_.webp" alt="Encrypt Icon" class="w-7 h-7 mt-1">
+                            <p class="text-gray-600">Data is encrypted in transit</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-23-20250504103948-a7l8k.webp" alt="Delete Icon" class="w-7 h-7 mt-1">
+                            <p class="text-gray-600">You can request that data be deleted</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Ratings and reviews -->
+            <section id="ratings" class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold flex justify-between items-center">
+                    Ratings and reviews
+                    <span class="text-green-600 font-semibold text-sm cursor-pointer">
+                        See details
+                    </span>
+                </h2>
+                <div class="flex items-end my-4">
+                    <div class="text-6xl font-bold">4.2</div>
+                    <div class="ml-4 flex flex-col items-start">
+                        <div class="text-yellow-400 text-3xl">★★★★☆</div>
+                        <p class="text-sm text-gray-500">3.24M reviews</p>
+                    </div>
+                </div>
+                <!-- Rating bars -->
+                <div class="space-y-1">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 w-4">5</span>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-green-600 h-full rounded-full" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 w-4">4</span>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-green-600 h-full rounded-full" style="width: 12%;"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 w-4">3</span>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-green-600 h-full rounded-full" style="width: 5%;"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 w-4">2</span>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-green-600 h-full rounded-full" style="width: 1%;"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 w-4">1</span>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-green-600 h-full rounded-full" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User reviews -->
+            <section class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
+                <p class="text-sm text-gray-500">Ratings and reviews are verified</p>
+                <div class="border-t border-gray-200 pt-4 space-y-6">
+                    <!-- Review 1 -->
+                    <article class="space-y-2">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-24-20250504103925-jngqu.webp" alt="User Avatar" class="w-10 h-10 rounded-full">
+                            <div>
+                                <h4 class="font-semibold">nadira haider</h4>
+                                <div class="text-yellow-400 text-sm">★★★★☆</div>
+                                <p class="text-xs text-gray-500">6 April 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700">It is a very nice game, but it could be better if stats cards will be given by using that type of shots or saves in the game. for example scoring with a certain amount or more power will give a stats card. Like scoring 5 goals with more than 120 kmh will give you a power shot stats card. Like that every stat will be given at certain amount of using the stat.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            Did you find this helpful?
+                            <button class="ml-2 px-3 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition">Yes</button>
+                            <button class="ml-2 px-3 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition">No</button>
+                        </div>
+                    </article>
+
+                    <!-- Review 2 -->
+                    <article class="space-y-2">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-25-20250504103925-hbhgx.webp" alt="User Avatar" class="w-10 h-10 rounded-full">
+                            <div>
+                                <h4 class="font-semibold">Thomas Nielsen</h4>
+                                <div class="text-yellow-400 text-sm">★☆☆☆☆</div>
+                                <p class="text-xs text-gray-500">2 April 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700">This game is ABSOLUTELY rigged to the core!!! If you happen to get a small winning streak going for a few matches, the game start pairing you up with higher level players with more superior gear n' stats, making it almost impossible to win or even reach the pts/results needed. I got a few lucky wins with perfect timing against these stronger players, then my character suddenly started delaying every shot a second or even stall the shot until obstacles would flat out block my shot... RIGGED!!</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            Did you find this helpful?
+                            <button class="ml-2 px-3 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition">Yes</button>
+                            <button class="ml-2 px-3 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition">No</button>
+                        </div>
+                    </article>
+
+                    <!-- Review 3 -->
+                    <article class="space-y-2">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-26-20250504103925-mkvcl.webp" alt="User Avatar" class="w-10 h-10 rounded-full">
+                            <div>
+                                <h4 class="font-semibold">timotei trofin</h4>
+                                <div class="text-yellow-400 text-sm">★★☆☆☆</div>
+                                <p class="text-xs text-gray-500">4 April 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700">it's absolute trash. you lose more games than you win. and the rewards for winning matches are way too low. matchmaking is absolute trash, I can't even win the easiest game, they expect me to win against a lvl 30 player. and the goalkeeping is trash, you can't even save power shots. 0/10</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            Did you find this helpful?
+                            <button class="ml-2 px-3 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition">Yes</button>
+                            <button class="ml-2 px-3 py-1 rounded-full border border-gray-400 hover:bg-gray-100 transition">No</button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar Section -->
+        <aside class="lg:w-1/3 mt-8 lg:mt-0 lg:p-6 space-y-6 sidebar">
+            <!-- App Support -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <div class="flex justify-between items-center text-gray-700 font-semibold cursor-pointer hover:text-gray-900 transition-colors sidebar-header">
+                    <span>App support</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-0 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="sidebar-content mt-4 hidden space-y-2">
+                    <a href="#" class="block text-gray-700 hover:text-gray-900">Contact Developer</a>
+                    <a href="#" class="block text-gray-700 hover:text-gray-900">Help & Support</a>
+                </div>
+            </div>
+
+            <!-- Similar Games -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <div class="flex justify-between items-center text-gray-700 font-semibold cursor-pointer hover:text-gray-900 transition-colors sidebar-header">
+                    <span>Similar games</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-0 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="sidebar-content mt-4 hidden space-y-4">
+                    <a href="https://play.google.com/store/apps/details?id=com.firsttouchgames.story" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-27-20250504103925-k1tv0.webp" alt="Score! Hero" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Score! Hero</h4>
+                            <p class="text-sm text-gray-500">First Touch Games &bull; 4.2 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=badminton.king.sportsgame.smash" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-28-20250504103925-rn6eh.webp" alt="Badminton League" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Badminton League</h4>
+                            <p class="text-sm text-gray-500">RedFish Games &bull; 2.7 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.masomo.headball2" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-29-20250504103925-hrqpf.webp" alt="Head Ball 2" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Head Ball 2 - Online Football</h4>
+                            <p class="text-sm text-gray-500">Masomo Games &bull; 3.8 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.rasugames.pls" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-30-20250504103925-dlrbp.webp" alt="Pro League Soccer" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Pro League Soccer</h4>
+                            <p class="text-sm text-gray-500">Rasu Games &bull; 3.2 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=vh.one" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-31-20250504103925-9eght.webp" alt="I, The One" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">I, The One - Fu</h4>
+                            <p class="text-sm text-gray-500">CASUAL AZUR &bull; 4.2 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.audify.football" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-32-20250504103925-rpfao.webp" alt="Football World" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Football World</h4>
+                            <p class="text-sm text-gray-500">Audify Player &bull; 3.1 ★</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- More by Miniclip.com -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <div class="flex justify-between items-center text-gray-700 font-semibold cursor-pointer hover:text-gray-900 transition-colors sidebar-header">
+                    <span>More by Miniclip.com</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-0 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="mt-4 space-y-4 sidebar-content">
+                    <a href="https://play.google.com/store/apps/details?id=com.miniclip.carrom" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-37-20250504112921-lauzz.webp" alt="Carrom Pool" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Carrom Pool: Disc Game</h4>
+                            <p class="text-sm text-gray-500">Miniclip.com &bull; 3.8 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.miniclip.realsniper" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-34-20250504103936-geotw.webp" alt="Pure Sniper" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Pure Sniper: City Gun Shooting</h4>
+                            <p class="text-sm text-gray-500">Miniclip.com &bull; 4.8 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=games.onebutton.badminton" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-33-20250504103925-mgvsj.webp" alt="Badminton Clash 3D" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Badminton Clash 3D</h4>
+                            <p class="text-sm text-gray-500">Miniclip.com &bull; 4.5 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.miniclip.minivolley" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-35-20250504103936-ovddn.webp" alt="Volleyball Arena" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Volleyball Arena: Spike Hard</h4>
+                            <p class="text-sm text-gray-500">Miniclip.com &bull; 2.9 ★</p>
+                        </div>
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.miniclip.grau1" class="flex items-center space-x-4">
+                        <img src="https://w.ladicdn.com/67ad8862dc936a0012033a0a/unnamed-36-20250504103936-xp-wx.webp" alt="Bike Games" class="w-12 h-12 rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">Bike games - Driving games</h4>
+                            <p class="text-sm text-gray-500">Miniclip.com &bull; 4.1 ★</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="bg-white shadow-inner p-6 mt-8">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
+                <!-- Section: Google Play -->
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Google Play</h3>
+                    <ul class="space-y-1 text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900">Play Pass</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Play Points</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Kartu Hadiah</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Tukar Kode</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Kebijakan Pengembalian Dana</a></li>
+                    </ul>
+                </div>
+                <!-- Section: Anak & Keluarga -->
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Anak & Keluarga</h3>
+                    <ul class="space-y-1 text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900">Panduan Orang Tua</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Play Points</a></li>
+                    </ul>
+                </div>
+                <!-- Section: Informasi Perusahaan -->
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Informasi Perusahaan</h3>
+                    <ul class="space-y-1 text-gray-600">
+                        <li><a href="#" class="hover:text-gray-900">Persyaratan Layanan</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Privasi</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Tentang Google Play</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Developer</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Toko Google</a></li>
+                    </ul>
+                </div>
+                <!-- Section: Bahasa & Lokasi -->
+                <div class="col-span-2 lg:col-span-1">
+                    <h3 class="font-bold text-lg mb-2">Pengaturan</h3>
+                    <p class="text-gray-600">Vietnam (English (Australia))</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-8 pt-4 text-center text-sm text-gray-500">
+                <p>Copyright © 2025 Google</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu functionality
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Carousel Functionality
+            const carouselImages = document.querySelectorAll('.image-container img');
+            const dots = document.querySelectorAll('.dot');
+            let currentIndex = 0;
+            const totalImages = carouselImages.length;
+            
+            const updateCarousel = (index) => {
+                carouselImages.forEach((img, i) => {
+                    img.classList.toggle('active', i === index);
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('bg-white', i === index);
+                    dot.classList.toggle('bg-gray-400', i !== index);
+                });
+            };
+
+            const autoSlide = () => {
+                currentIndex = (currentIndex + 1) % totalImages;
+                updateCarousel(currentIndex);
+            };
+
+            let slideInterval = setInterval(autoSlide, 5000);
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const slideIndex = parseInt(dot.dataset.slide) - 1;
+                    currentIndex = slideIndex;
+                    updateCarousel(currentIndex);
+                    clearInterval(slideInterval);
+                    slideInterval = setInterval(autoSlide, 5000);
+                });
+            });
+
+            // Accordion Functionality
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    const icon = header.querySelector('.accordion-icon');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // Sidebar accordion
+            const sidebarHeaders = document.querySelectorAll('.sidebar-header');
+            sidebarHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('svg');
+                    
+                    if (content) {
+                        content.classList.toggle('hidden');
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
